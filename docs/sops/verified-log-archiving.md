@@ -1,97 +1,56 @@
 # SOP: Verified Linux Log Archiving
 
-**Objective:** Create and transfer an archive of explicitly selected regular log files, verify exact file membership and integrity, and preserve all source files.
+**Objective:** Archive an explicitly selected set of regular log files, prove source-file and archive-entry counts match, verify content and destination integrity, and retain originals.
 
-**Environment:** Authorized Linux lab or managed system with GNU tar, gzip, find, sort, cmp, sha256sum and Bash. This is a reference workflow, not a record of an executed production change.
+**Implementation:** [Verified archiving utility](../../scripts/archive_verified.py) (Python 3 standard library; independently authored). This is a generic reference workflow, not a production execution record.
 
 ## Preconditions
 
-- Confirm the exact approved source directory, destination directory, selection rule, and archive filename.
-- Ensure sufficient free space, permissions, and a stable set of source files. Avoid concurrent log rotation or active writes during capture.
-- Use a dedicated destination archive name that does not already exist.
-- No source-file deletion is part of this procedure.
+- Exact authorized source and destination directories and filename/date selection criteria.
+- Sufficient disk space and read/write permissions.
+- A stable file set: pause rotation/writes or work from a consistent snapshot where required.
+- An archive name that does not already exist at the destination.
+- Separate approval for any later deletion; **this workflow never deletes source files**.
 
-## Safe end-to-end example
+## Procedure
 
-The example selects **top-level regular files** matching a date-based filename pattern. It rejects symlinks and directory entries by design. Substitute only approved paths and patterns.
+1. Identify the source and destination directories and review the filename pattern.
+2. Count the selected top-level regular source files. Exclude symlinks and directories.
+3. Create a gzip-compressed tar archive with relative member names.
+4. Verify every archive member is a regular file; compare **member count, member names, and SHA-256 content hashes** against the source manifest.
+5. Copy to the destination without overwriting an existing archive.
+6. Repeat member and content checks at the destination, and compare the archive checksum with the staged archive.
+7. Report source-file count and verified archive-entry count; retain source files.
+
+## Disposable lab example
 
 ```bash
-#!/usr/bin/env bash
-set -euo pipefail
+mkdir -p ./sample-logs ./archives
+printf 'example one\n' > ./sample-logs/service-2025-01.log
+printf 'example two\n' > ./sample-logs/service-2025-02.log
 
-SOURCE="/path/to/approved/source"
-DEST="/path/to/approved/destination"
-PATTERN="*-2025-*.log"
-ARCHIVE_NAME="logs-2025.tar.gz"
-
-[[ -d "$SOURCE" && -d "$DEST" ]] || { echo "Missing source or destination"; exit 1; }
-[[ "$SOURCE" != "$DEST" ]] || { echo "Source and destination must differ"; exit 1; }
-[[ ! -e "$DEST/$ARCHIVE_NAME" ]] || { echo "Destination archive already exists"; exit 1; }
-
-# Work in a private staging directory; do not stage manifests in the source.
-WORK="$(mktemp -d)"
-trap 'rm -rf -- "$WORK"' EXIT
-
-# Null-delimited manifest supports spaces and unusual filenames.
-# GNU find -printf '%f\0' emits names relative to SOURCE.
-(
-  cd "$SOURCE"
-  find . -maxdepth 1 -type f -name "$PATTERN" -printf '%P\0' |
-    LC_ALL=C sort -z > "$WORK/source.nul"
-)
-SOURCE_COUNT="$(tr -cd '\0' < "$WORK/source.nul" | wc -c)"
-echo "Source files: $SOURCE_COUNT"
-(( SOURCE_COUNT > 0 )) || { echo "No files selected"; exit 1; }
-
-# Archive only the exact manifest; no directory entries or absolute paths.
-tar -C "$SOURCE" --null -T "$WORK/source.nul" -czf "$WORK/$ARCHIVE_NAME"
-gzip -t "$WORK/$ARCHIVE_NAME"
-tar -tzf "$WORK/$ARCHIVE_NAME" > /dev/null
-
-# Compare the actual archive member names with the source manifest.
-# GNU tar --null is not a null-output listing option: use a newline listing
-# only after explicitly rejecting source names containing newline characters.
-if LC_ALL=C tr '\0' '\n' < "$WORK/source.nul" | grep -q $'\r'; then
-  echo "Unexpected carriage return in filename; manual review required"; exit 1
-fi
-if LC_ALL=C tr '\0' '\n' < "$WORK/source.nul" | wc -l | grep -qx "$SOURCE_COUNT"; then
-  :
-else
-  echo "Newline in filename or manifest mismatch; stop"; exit 1
-fi
-LC_ALL=C tr '\0' '\n' < "$WORK/source.nul" | LC_ALL=C sort > "$WORK/expected.txt"
-tar -tzf "$WORK/$ARCHIVE_NAME" | LC_ALL=C sort > "$WORK/actual.txt"
-ARCHIVE_COUNT="$(wc -l < "$WORK/actual.txt")"
-echo "Archive entries: $ARCHIVE_COUNT"
-[[ "$SOURCE_COUNT" -eq "$ARCHIVE_COUNT" ]] || { echo "Entry count mismatch"; exit 1; }
-cmp -s "$WORK/expected.txt" "$WORK/actual.txt" || { echo "Archive member mismatch"; exit 1; }
-
-# Transfer without overwriting an existing archive.
-cp -n -- "$WORK/$ARCHIVE_NAME" "$DEST/$ARCHIVE_NAME"
-[[ -f "$DEST/$ARCHIVE_NAME" ]] || { echo "Destination missing"; exit 1; }
-gzip -t "$DEST/$ARCHIVE_NAME"
-tar -tzf "$DEST/$ARCHIVE_NAME" | LC_ALL=C sort > "$WORK/destination.txt"
-cmp -s "$WORK/expected.txt" "$WORK/destination.txt" || { echo "Destination member mismatch"; exit 1; }
-[[ "$(wc -l < "$WORK/destination.txt")" -eq "$SOURCE_COUNT" ]] || exit 1
-[[ "$(sha256sum "$WORK/$ARCHIVE_NAME" | awk '{print $1}')" == "$(sha256sum "$DEST/$ARCHIVE_NAME" | awk '{print $1}')" ]] || { echo "Checksum mismatch"; exit 1; }
-
-echo "PASS: $SOURCE_COUNT source files, $ARCHIVE_COUNT archive entries; destination verified."
-echo "No source files were deleted."
+python3 scripts/archive_verified.py \
+  --source ./sample-logs \
+  --destination ./archives \
+  --pattern '*-2025-*.log' \
+  --name logs-2025.tar.gz
 ```
 
-**Operational note:** The example is intended for conventional log filenames. If filenames contain newlines, use a separate null-safe tar member listing/manifest strategy; do not weaken the comparison. If `cp -n` encounters a pre-existing destination because of a race, its behavior can vary by platform. For concurrent workflows, use an exclusive destination creation mechanism.
+**Expected behavior (not a measured run):** Two source files selected; two regular archive entries; staged and destination member/content checks pass; source files remain unchanged.
+
+The script reports failure for an empty selection, changed content during staging, nonmatching archive membership, checksum mismatch, or a destination name already in use. The script does not guarantee an atomic snapshot of files being actively written: quiesce writers or use a consistent snapshot for such workloads.
 
 ## Acceptance criteria
 
-1. Source file count recorded before archiving.
-2. Archive passes `gzip -t` and `tar -tzf`.
-3. Archive member count equals the source count.
-4. Archive member names exactly match the source manifest.
-5. Destination passes the same checks and checksum comparison.
-6. Original source files remain intact.
+- [ ] Source-file count recorded before archiving
+- [ ] Archive count equals source-file count
+- [ ] Member names and content hashes match source selection
+- [ ] Destination archive reverified after transfer
+- [ ] Source logs retained
+- [ ] Authorized change record contains outcome and evidence
 
 ## Failure handling
 
-On any failure, **retain all source logs**, stop further action, and investigate changed files, log rotation, partial transfer, unusual filenames, insufficient storage, or permission issues. Do not remove originals without a separately approved retention operation.
+Stop and investigate the selection rule, file rotation, changed content, partial transfer, or permissions. Retain all source files. An incomplete destination archive must be handled only under an authorized cleanup procedure; the utility does not automatically delete it.
 
-*Independently authored reference procedure. Never substitute unreviewed production paths into a public example.*
+*Never use actual employer paths, filenames, or logs in this public repository.*
