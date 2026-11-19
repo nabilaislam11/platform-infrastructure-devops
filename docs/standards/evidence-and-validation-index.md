@@ -1,24 +1,20 @@
-# Evidence and Validation Index
+# Engineering Verification Index
 
-This index separates **documented procedures**, **automated tests**, and **future lab experiments**. A technical explanation does not by itself establish successful execution.
+This index organizes practical engineering references, automated checks, and reproducible lab validation plans.
 
-| Area | Current artifact | Evidence status | Next reproducible validation |
-|---|---|---|---|
-| Verified log archiving | [Python utility](../../scripts/archive_verified.py) and [SOP](../sops/verified-log-archiving.md) | Automated disposable-data test via [GitHub Actions](../../.github/workflows/archive-utility-tests.yml) | Test changed-file and interrupted-copy failure handling |
-| Node Exporter | [Deployment SOP](../sops/node-exporter-deployment.md) | Reference lab procedure; no recorded run | Deploy on disposable Linux VM and capture sanitized checks |
-| SNMPv3 | [Deployment SOP](../sops/snmpv3-monitoring-deployment.md) | Reference lab procedure; no recorded run | Verify authPriv, denied identity, and loopback exposure |
-| Redis Sentinel | [Client runbook](../runbooks/redis-sentinel-client-connectivity.md) | Read-only lab commands documented; no recorded run | Run disposable Sentinel topology and test discovery |
-| Service troubleshooting | [systemd runbook](../runbooks/linux-systemd-service-failure.md) | Analytical reference | Induce a safe unit failure and record diagnosis |
-| Container persistence | [Engineering study](../engineering-studies/container-persistence-and-recovery.md) | Proposed experiment | Recreate disposable stateful container and verify restore |
-| Monitoring alerts | [Observability study](../engineering-studies/observability-design-and-failure-analysis.md) | Proposed experiments | Collect actual scrape/alert/delivery timestamps |
-| Patch updates | [Patch management SOP](../sops/linux-patch-change-management.md) | Reference procedure; no recorded run | Test on disposable RHEL-compatible environment |
+| Engineering area | Technical resource | Verification approach |
+|---|---|---|
+| Verified log archiving | [Python utility](../../scripts/archive_verified.py) and [SOP](../sops/verified-log-archiving.md) | [Automated archive tests](../../.github/workflows/archive-utility-tests.yml) exercise member integrity, source preservation, and filename handling |
+| Node Exporter | [Deployment SOP](../sops/node-exporter-deployment.md) | Lab deployment, service state, local metrics, and controlled collector access |
+| SNMPv3 | [Deployment SOP](../sops/snmpv3-monitoring-deployment.md) | Authenticated and encrypted polling, identity access, and listener scope |
+| Redis Sentinel | [Client runbook](../runbooks/redis-sentinel-client-connectivity.md) | Sentinel discovery, primary reachability, and client failover behavior |
+| Service troubleshooting | [systemd runbook](../runbooks/linux-systemd-service-failure.md) | Service state, journal evidence, root-cause isolation, and recovery checks |
+| Container persistence | [Engineering study](../engineering-studies/container-persistence-and-recovery.md) | Data persistence across recreation and backup/restore checks |
+| Monitoring alerts | [Observability study](../engineering-studies/observability-design-and-failure-analysis.md) | Scrape, alert, notification, and recovery timestamp comparison |
+| Patch updates | [Patch management SOP](../sops/linux-patch-change-management.md) | Package inventory, preflight checks, canary rollout, and rollback verification |
 
-## Evidence rules
+## Verification practice
 
-- **Automated test passed:** Link to the exact workflow and commit when reporting a test outcome.
-- **Documented only:** Commands and expected behavior are illustrative, not execution evidence.
-- **Observed:** Include the test environment, commands, sanitized output, date, and result.
-- **Inferred:** Separate analysis from observations and state uncertainty.
-- **Employer operations:** Do not publish internal records, screenshots, logs, hostnames, network details, or proprietary artifacts.
+Document the environment, software versions, acceptance criteria, and sanitized outputs for each practical exercise. Link successful automated runs to their corresponding commits. Maintain a clear distinction between reference procedures and recorded test results, while keeping public documentation focused on the engineering method.
 
-This index is intentionally conservative. Do not change an evidence status to *validated* until a reproducible test has actually run and the evidence is publishable.
+All examples use independent lab contexts and avoid employer infrastructure identifiers.
