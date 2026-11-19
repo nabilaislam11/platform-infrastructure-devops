@@ -19,7 +19,7 @@ journalctl -u example.service -b --no-pager -n 100
 systemctl cat example.service
 systemctl list-dependencies example.service
 ```
-Replace `example.service` with an approved lab or managed service. Logs can contain sensitive data: redact before sharing.
+Replace `example.service` with the target service. Logs can contain sensitive data: redact before sharing.
 
 ## Diagnostic matrix
 | Observation | Possible explanation | Next verification |
@@ -50,4 +50,3 @@ Replace `example.service` with an approved lab or managed service. Logs can cont
 Restore the previous approved unit, environment, and binary/configuration version as appropriate; run `systemctl daemon-reload` after unit changes and validate baseline behavior.
 
 ## Boundaries
-Examples use generic service identifiers and authorized lab contexts.
