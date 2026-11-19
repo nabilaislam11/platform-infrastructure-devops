@@ -83,7 +83,7 @@ dnf upgrade --assumeno <PACKAGE_NAME>
 
 ### B. Apply the approved scope
 
-After explicit change approval, the execution owner may use the organization's authorized package workflow. Examples for a controlled lab:
+After explicit change approval, the execution owner may use the organization's authorized package workflow. Example commands:
 
 ```bash
 sudo dnf upgrade <PACKAGE_NAME>
@@ -166,4 +166,3 @@ Do not declare success solely because the package manager exited with code zero.
 - [DNF command reference](https://dnf.readthedocs.io/en/latest/command_ref.html)
 - [Red Hat security advisories](https://access.redhat.com/security/security-updates/)
 
-*Independently authored technical portfolio documentation. Not an official employer procedure or a record of a particular production patching event.*
