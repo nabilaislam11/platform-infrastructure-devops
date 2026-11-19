@@ -1,7 +1,7 @@
 # Linux Infrastructure Observability: Architecture and Operational Considerations
 
 **Document type:** Engineering architecture study  
-**Document:** Independent monitoring architecture reference
+**Focus:** Linux monitoring architecture and operational validation
 
 ## 1. Engineering objective
 Build visibility into host availability, resource saturation, service health, and alert delivery while limiting operational overhead and unnecessary exposure.
@@ -31,7 +31,7 @@ These tools provide overlapping but distinct signals. A successful ICMP probe do
 3. Use least-privilege service accounts, supported TLS/authentication mechanisms, and controlled secret storage.
 4. Monitor the monitoring system: scrape failures, rule evaluation, alert delivery, disk capacity, and retention.
 5. Document maintenance windows, silence ownership, and post-maintenance validation.
-6. Separate development demonstrations from enterprise deployment claims.
+6. Differentiate infrastructure metrics from application-level service health.
 
 ## 5. Failure-mode analysis
 | Failure mode | Symptom | Investigation |
