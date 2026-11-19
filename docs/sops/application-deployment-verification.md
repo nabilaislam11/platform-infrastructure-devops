@@ -1,6 +1,6 @@
 # SOP: Application Deployment Verification and Rollback Readiness
 
-**Status:** Generalized operational procedure, not a record of a completed change.
+**Focus:** Release readiness, artifact integrity, deployment checks, and rollback
 
 ## Objective
 Validate an authorized application deployment across artifact identity, runtime readiness, dependencies, functional checks, and rollback preparedness.
@@ -46,5 +46,5 @@ Rollback may require more than replacing the binary if a schema or data migratio
 ## Evidence
 Store sanitized release identifiers, test outcomes, timestamps, and approvals in the authorized change record. Do not publish internal endpoints, configuration values, credentials, or raw production logs.
 
-## Limitations
-This is a reusable reference SOP. It does not assert that any specific deployment was performed or verified.
+## Application
+Adapt acceptance criteria, release controls, and rollback triggers to the authorized application and change process.
