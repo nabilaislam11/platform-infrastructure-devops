@@ -30,5 +30,5 @@ Never fabricate benchmark values, incident timelines, test results, change appro
 3. Review confidentiality and intellectual-property boundaries.
 4. Verify links and internal navigation.
 5. Record whether examples were executed or are illustrative.
-6. Publish only the sanitized, independently authored material.
+6. Finalize the reviewed engineering documentation.
 
