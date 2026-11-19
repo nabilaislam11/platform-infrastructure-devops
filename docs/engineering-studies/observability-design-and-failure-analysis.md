@@ -1,9 +1,5 @@
 # Designing Reliable Linux Infrastructure Observability
 
-**Classification:** Public, independently authored engineering study  
-**Approach:** Architecture analysis and reproducible validation design  
-**Context:** Generic Linux infrastructure; no employer-specific architecture or incident details
-
 ## Abstract
 
 Infrastructure monitoring is not equivalent to service reliability. An exporter can be reachable while a workload is unavailable, and an endpoint can respond to a TCP handshake while its dependencies are degraded. This study examines observability as an engineering system: signal selection, collection reliability, alert quality, failure isolation, and measurable verification.
@@ -55,7 +51,7 @@ For each alert, define:
 - **Runbook:** initial checks and escalation boundaries.
 - **Recovery:** measurable evidence that the issue has resolved.
 
-### Illustrative PromQL (not production-tuned)
+### PromQL examples
 
 ```promql
 up{job="linux-lab"} == 0
@@ -73,34 +69,18 @@ This detects unsuccessful scraping for existing targets. It does **not** detect 
 
 This approximates Linux memory utilization for systems exposing the expected metrics. Thresholds require workload-specific evaluation; memory utilization alone does not establish memory exhaustion.
 
-## 5. Security and confidentiality
+## 6. Monitoring validation model
 
-Monitoring endpoints and dashboards are sensitive operational surfaces. Limit collection to authorized sources, restrict access, protect credentials, and avoid publishing environment-specific scrape targets or alert receiver URLs.
+| Monitoring stage | Verification signal | Diagnostic significance |
+|---|---|---|
+| Discovery | Expected targets registered | Confirms discovery and target configuration |
+| Collection | Scrape success and fresh samples | Confirms metrics ingestion |
+| Alert evaluation | Rule state and evaluation history | Distinguishes thresholds from missing data |
+| Service availability | Host and application probes | Separates infrastructure health from service readiness |
+| Notification | Alertmanager routing and receiver health | Identifies delivery-path failures |
+| Recovery | Restored metrics and resolved alerts | Confirms telemetry and service recovery |
 
-Do not embed real production logs, network diagrams, device inventories, notification webhooks, or host identifiers in public documentation.
-
-## 6. Proposed reproducible lab evaluation
-
-The following test matrix defines expected signals and evidence to capture in a controlled lab.
-
-| Test | Action in authorized lab | Expected observation | Evidence to collect |
-|---|---|---|---|
-| T1 | Start healthy exporter and collector | Target becomes UP | Scrape status and timestamps |
-| T2 | Stop exporter | Target becomes DOWN after failed scrape | Rule state transitions |
-| T3 | Restore exporter | Scrape recovers | Recovery timestamps |
-| T4 | Break synthetic HTTP service while host stays up | Host metrics continue; service check fails | Separate host/service signal history |
-| T5 | Trigger approved test notification | Receiver obtains alert | Sanitized delivery evidence |
-| T6 | Temporarily interrupt collection | Monitoring blind spot becomes visible | Collector health and missing-data behavior |
-
-### Measurements to report after testing
-
-- Detection latency: time between induced fault and first detected symptom.
-- Alert latency: time between induced fault and firing alert.
-- Notification latency: time between alert firing and receipt.
-- Recovery latency: time between service restoration and resolved state.
-- False-positive/false-negative observations within the test scope.
-
-Do not populate these measurements until actual timestamps have been collected.
+Detection, alert, notification, and recovery latencies describe distinct stages of the monitoring pipeline.
 
 ## 7. Discussion
 
@@ -108,7 +88,7 @@ An observability design should be evaluated as a chain: **signal generation → 
 
 ## 8. Implementation considerations
 
-Tune scrape intervals, rule durations, collection capacity, and receiver routing to the chosen software versions and service objectives. Record measurements with the lab setup when applying the test matrix.
+Tune scrape intervals, rule durations, collection capacity, and receiver routing to the chosen software versions and service objectives. Evaluate collection intervals, alert durations, and routing behavior against service objectives.
 
 ## 9. Further reading
 
