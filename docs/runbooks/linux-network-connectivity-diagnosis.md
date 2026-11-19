@@ -1,7 +1,6 @@
 # Runbook: Linux Network and Service Connectivity Diagnosis
 
 **Type:** Diagnostic runbook  
-**Status:** Reference workflow; examples are generic and not production observations
 
 ## Question
 Where does a connection fail: name resolution, route, transport handshake, TLS negotiation, proxy, or application protocol?
@@ -15,7 +14,7 @@ Where does a connection fail: name resolution, route, transport handshake, TLS n
 6. If a proxy is involved, verify the approved proxy path separately.
 7. Correlate findings with recent authorized changes.
 
-## Read-only examples for an isolated lab
+## Diagnostic commands
 ```bash
 getent ahosts example.org
 ip route
