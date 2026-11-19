@@ -16,19 +16,11 @@
 - [ ] Runbooks distinguish symptom, hypothesis, observation and conclusion.
 - [ ] Test results are reported only when evidence exists.
 
-## Confidentiality and integrity
-
-- [ ] No employer infrastructure identifiers, real addresses, credentials or topology.
-- [ ] No private or proprietary configurations, internal logs, screenshots or customer data.
-- [ ] Examples are generic and independently authored.
-- [ ] No invented benchmarks, deployments, incident outcomes or academic claims.
-- [ ] Automated checks are supplemented by human review.
-
 ## Publication acceptance
 
 - [ ] `python3 scripts/validate_repository.py` passes locally.
 - [ ] GitHub Actions documentation-validation job succeeds.
 - [ ] External links are spot-checked manually.
-- [ ] Document owner reviews technical and confidentiality requirements.
+- [ ] Document owner reviews technical correctness and operational requirements.
 
-A passing automated check is not proof of technical correctness or confidentiality.
+Automated checks complement technical review.
