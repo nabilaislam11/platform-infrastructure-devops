@@ -25,13 +25,25 @@ Sentinel provides monitoring, notification, and coordination for Redis primary/r
 
 ## Read-only lab examples
 
-```text
-redis-cli [approved connection and authentication options] SENTINEL masters
-redis-cli [approved connection and authentication options] SENTINEL get-master-addr-by-name <LAB_MASTER_NAME>
-redis-cli [approved connection and authentication options] SENTINEL sentinels <LAB_MASTER_NAME>
+Use an isolated Redis Sentinel lab with a test master name such as `mymaster`. The examples assume a locally accessible Sentinel on the lab machine; they are not commands for an employer environment.
+
+```bash
+# Inspect the Sentinel's known master groups (no authentication in disposable lab).
+redis-cli -h 127.0.0.1 -p 26379 SENTINEL masters
+
+# Discover the current primary address for the named lab group.
+redis-cli -h 127.0.0.1 -p 26379 SENTINEL get-master-addr-by-name mymaster
+
+# Inspect other Sentinels known for that master.
+redis-cli -h 127.0.0.1 -p 26379 SENTINEL sentinels mymaster
+
+# Inspect replicas known for the master.
+redis-cli -h 127.0.0.1 -p 26379 SENTINEL replicas mymaster
 ```
 
-Use only authorized endpoints. Prefer secure credential injection; avoid exposing secrets in shell history, process arguments, or screenshots.
+**Prerequisites:** `redis-cli` installed, a running Sentinel listener in the lab, and a matching configured master name. These commands inspect Sentinel state; they do not force a failover. In an authenticated/TLS-enabled environment, use the vendor-supported secure connection options and approved credential handling. Do not copy real endpoints or pass secrets into a published shell history.
+
+A discovered primary may still be inaccessible to an application because of ACLs, routing, TLS configuration, or incorrect advertised addresses. Validate the client-to-primary path separately.
 
 ## Diagnostic matrix
 
