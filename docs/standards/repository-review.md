@@ -1,29 +1,26 @@
-# Repository Review and Publication Status
+# Engineering Documentation Quality Review
 
 **Review date:** 2026-11-19  
-**Scope:** Public technical documentation and generic lab utilities.
+**Scope:** Technical documentation, operational examples, and independently authored utilities.
 
-## Completed editorial work
+## Engineering improvements
 
-- Consolidated README introduction and organized links by architecture, studies, SOPs, runbooks, and standards.
-- Added an evidence and validation index distinguishing proposed experiments from actual tests.
-- Added executable read-only Redis Sentinel examples for an isolated lab.
-- Added an illustrative Node Exporter systemd unit and verification steps.
-- Added a version-aware SNMPv3 setup workflow without publishing credentials.
-- Added a non-destructive Python log-archive utility and automated disposable-data tests.
-- Added automated local Markdown link checks and heuristic sensitive-pattern warnings.
+- Organized the documentation library into architecture, engineering studies, SOPs, runbooks, and reusable templates.
+- Strengthened Redis Sentinel diagnostic examples and Node Exporter systemd deployment guidance.
+- Expanded SNMPv3 authenticated monitoring setup and validation steps.
+- Developed a non-destructive log archiving utility with source counts, member integrity checks, and destination verification.
+- Added automated checks for Markdown navigation and disposable archive test scenarios.
+- Established an [Engineering Verification Index](evidence-and-validation-index.md) for practical validation workflows.
 
-## Validation boundaries
+## Documentation practices
 
-Automated checks establish only what they exercise. They do **not** validate every shell command, prove production compatibility, audit all historical commits for secrets, or establish real-world operational results.
+Each procedure emphasizes prerequisites, safe execution, clear acceptance criteria, and recovery planning. Engineering studies distinguish system behavior, diagnostic hypotheses, and verification methodology. Public examples use generic lab settings and protect confidential operational details.
 
-The log-archive utility has automated tests; the other procedures are reference documents and are not represented as executed lab experiments.
+## Quality controls
 
-## Follow-on work, separate from publication readiness
+- [Documentation validation workflow](../../.github/workflows/docs-validation.yml)
+- [Archive utility test workflow](../../.github/workflows/archive-utility-tests.yml)
+- [Repository quality checklist](quality-assurance-checklist.md)
+- [Contribution and review guide](../../CONTRIBUTING.md)
 
-- Execute and record sanitized, independent lab experiments for Node Exporter, SNMPv3, Redis Sentinel, systemd failure diagnosis, and monitoring alerts.
-- Verify version-specific behavior on each intended Linux distribution.
-- Conduct a dedicated historical Git-secret scan and manually inspect any flagged results.
-- Add measured results only after tests have actually been run.
-
-This repository is a documentation-led engineering portfolio. It is not a complete, tested deployment automation product.
+This review summarizes the repository's technical organization and maintenance practices.
