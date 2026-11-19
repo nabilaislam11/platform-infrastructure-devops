@@ -1,58 +1,169 @@
-# MOP: Linux Package Patching with Verification and Recovery Planning
+# Linux Server Patch Management and Update Procedure
 
-**Type:** Generalized Method of Procedure  
-**Status:** Template for authorized change planning; not an executed change
+**Document type:** Standard Operating Procedure / Method of Procedure (SOP/MOP)  
+**Platform:** Red Hat Enterprise Linux (RHEL 8/9); adapt for other releases  
+**Focus:** Security patching, package updates, change control, verification, and recovery
 
-## Objective
+## Purpose
 
-Apply approved Linux package updates while maintaining change control, documenting impact, and validating service health.
+Provide a controlled workflow for updating Linux servers while protecting service availability, system security, and operational continuity. This procedure covers assessment, preparation, approved execution, post-update checks, and change closure.
 
-## Preconditions
+## 1. Change scope and prerequisites
 
-- Approved scope, package advisories, maintenance window, and rollback owner
-- Verified backups or snapshots appropriate to the workload
-- Known application compatibility and reboot requirements
-- Access through an authorized recovery channel
-- Baseline health, storage capacity, service dependencies and monitoring state
+Before any production change, establish:
 
-## Phase 1 — Assess
+- Approved server scope, maintenance window, change owner, and communication plan
+- Applicable security advisories, target packages, and dependency impact
+- Application compatibility and required service restart or reboot
+- Verified backup/snapshot and an environment-appropriate restoration plan
+- Authorized console or recovery access
+- Baseline monitoring, application health, disk capacity, and system state
+- A canary/rolling sequence when architecture permits
 
-1. Identify OS release, package manager, enabled repositories and approved patch baseline.
-2. Review applicable security advisories and package dependencies.
-3. Identify kernel, library, and service updates that may require restart or reboot.
-4. Confirm sufficient disk space, backup integrity, and recovery constraints.
-5. Define the canary scope and success criteria.
+**Stop condition:** Do not proceed if approval, recovery readiness, or critical baseline checks are missing.
 
-## Phase 2 — Prepare
+## 2. Pre-update assessment
 
-Record package versions and service status in the approved internal change record. Obtain required approvals before modifying packages. Do not expose repository credentials or internal package mirrors in public documentation.
+Run read-only checks on an authorized host. Save evidence in the approved internal change record, not in a public repository.
 
-## Phase 3 — Execute
+```bash
+cat /etc/redhat-release
+uname -r
+uptime
+df -h
+df -i
+free -h
+systemctl --failed
+rpm -qa --last | head -20
+```
 
-Use the organization's approved package-management workflow for the target distribution and version. Apply changes first to the authorized canary environment where practical. Monitor the update for dependency conflicts, transaction failures, and unexpected service restarts.
+Review available updates and advisories:
 
-This document deliberately does not provide an unconditional mass-update command for production hosts.
+```bash
+dnf check-update
+dnf updateinfo list security
+dnf updateinfo info security
+```
 
-## Phase 4 — Validate
+**Note:** `dnf check-update` can return exit code **100** when updates are available; that is not necessarily a command failure. Advisory information depends on enabled repository metadata.
 
-| Check | Acceptance criterion |
+Check package history before and after the change:
+
+```bash
+dnf history list
+```
+
+For RHEL 7, use the supported `yum` workflow and verify version-specific syntax. Do not assume RHEL 7 and RHEL 8/9 have identical patching or lifecycle support.
+
+## 3. Risk and dependency assessment
+
+| Risk | Assessment | Mitigation |
+|---|---|---|
+| Kernel update | Reboot requirement and driver compatibility | Confirm supported kernel and recovery path |
+| Shared-library update | Dependent processes may require restart | Identify affected applications and schedule checks |
+| Service package update | Runtime or configuration compatibility | Validate canary and approved smoke tests |
+| Package conflict | Dependency resolution may fail | Review transaction before confirmation |
+| Repository issue | Updates unavailable or inconsistent | Validate authorized repositories and package provenance |
+| Resource pressure | Update may exhaust storage | Verify filesystem and inode headroom |
+
+Do not disable security controls or modify repository policy merely to make a transaction succeed.
+
+## 4. Approved patch execution
+
+### A. Review the proposed transaction
+
+For an approved target package in a test environment, inspect the package and transaction impact before installation:
+
+```bash
+dnf info <PACKAGE_NAME>
+dnf upgrade --assumeno <PACKAGE_NAME>
+```
+
+`--assumeno` declines confirmation, but package managers may still refresh metadata; it is not a guarantee of zero side effects.
+
+### B. Apply the approved scope
+
+After explicit change approval, the execution owner may use the organization's authorized package workflow. Examples for a controlled lab:
+
+```bash
+sudo dnf upgrade <PACKAGE_NAME>
+```
+
+For broader approved maintenance, a full `dnf upgrade` may be appropriate, but it can affect many packages and services. Never treat it as a default command to run indiscriminately on production hosts.
+
+Record the resulting transaction identifier. Review output for conflicts, scriptlet errors, package exclusions, and restart notices. Do not proceed to additional hosts if canary acceptance criteria fail.
+
+## 5. Post-update verification
+
+```bash
+cat /etc/redhat-release
+uname -r
+systemctl --failed
+dnf history list
+rpm -q <PACKAGE_NAME>
+df -h
+df -i
+```
+
+If the approved environment has `needs-restarting` available:
+
+```bash
+needs-restarting -r
+```
+
+Availability and exact behavior depend on OS release and installed utilities. A kernel package update does **not** mean the running kernel changed; `uname -r` reflects the currently booted kernel.
+
+| Verification | Pass condition |
 |---|---|
-| Package transaction | Completed without unresolved errors |
-| Installed versions | Match approved patch baseline |
-| Service health | Required services stable and ready |
-| Functional checks | Approved application smoke tests pass |
-| Security | Expected controls remain enforced |
-| Monitoring | Telemetry and alerts restored to expected state |
-| Reboot | Performed and verified only if required and approved |
+| Transaction | Approved packages installed without unresolved errors |
+| Versions | Installed versions match change scope |
+| System | Required mounts, capacity, and critical services healthy |
+| Application | Functional smoke tests and readiness checks pass |
+| Network | Authorized service endpoints respond as expected |
+| Security | SELinux, firewall, access policy, and required agents remain operational |
+| Observability | Metrics and alerting resume expected behavior |
+| Reboot | Completed only when approved and required, with post-boot checks |
 
-## Phase 5 — Recovery
+Do not declare success solely because the package manager exited with code zero.
 
-Package downgrades are not universally safe, especially after schema, kernel, or library changes. Choose a previously tested restoration mechanism appropriate to the system. Stop rollout on failed canary validation and escalate according to the change plan.
+## 6. Recovery and rollback
 
-## Evidence
+1. Stop the rollout on failed validation.
+2. Preserve diagnostic evidence and communicate impact through approved channels.
+3. Determine whether the problem is a package conflict, service regression, configuration issue, or unrelated fault.
+4. Use the **preapproved, tested** recovery method: application rollback, snapshot/backup restoration, or a supported package recovery path.
+5. Verify application correctness and monitoring after recovery.
+6. Record the outcome and defer remaining hosts until the cause is understood.
 
-Record sanitized change timing, version deltas, validation results, unresolved issues, and reviewer sign-off. Never publish real host inventories or internal patching schedules.
+**Important:** `dnf history undo` and package downgrades are not guaranteed to restore the prior system state. Kernel, database, filesystem, or application changes may require different recovery mechanisms.
+
+## 7. Change record template
+
+| Field | Record |
+|---|---|
+| Change identifier | Internal system only |
+| Approved scope | Authorized inventory only |
+| Reason | Advisory / defect / planned maintenance |
+| Baseline | OS, kernel, package and service state |
+| Recovery plan | Backup or tested restoration procedure |
+| Execution | Approved package transaction and timestamps |
+| Validation | Functional and operational evidence |
+| Result | Successful / rolled back / deferred |
+| Review | Authorized change owner |
+
+## 8. Practical engineering considerations
+
+- Prefer risk-based prioritization for security advisories, not indiscriminate patching.
+- Coordinate patching with application owners and service dependencies.
+- Use rolling maintenance only where redundancy and failover behavior are understood.
+- Validate actual application functionality, not merely process existence.
+- Treat security-agent health and monitoring coverage as post-change acceptance criteria.
+- Keep real infrastructure details and change evidence within authorized systems.
 
 ## References
 
 - [Red Hat Enterprise Linux documentation](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/)
+- [DNF command reference](https://dnf.readthedocs.io/en/latest/command_ref.html)
+- [Red Hat security advisories](https://access.redhat.com/security/security-updates/)
+
+*Independently authored technical portfolio documentation. Not an official employer procedure or a record of a particular production patching event.*
