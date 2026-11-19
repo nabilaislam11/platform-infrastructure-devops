@@ -54,5 +54,5 @@ jobs:
           python3 - <<'PY'
           import tarfile
           with tarfile.open('extra-output/unusual.tar.gz', 'r:gz') as t:
-              assert sorted(t.getnames()) == ['a file with spaces.log', 'a\nnewline.log']
+              assert sorted(t.getnames()) == sorted(['a file with spaces.log', 'a\nnewline.log'])
           PY
