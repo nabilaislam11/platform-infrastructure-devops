@@ -51,6 +51,7 @@ An independent engineering knowledge base informed by hands-on Platform Infrastr
 
 ## Evidence and validation
 
+- [Repository Review and Publication Status](docs/standards/repository-review.md) — completed editorial improvements, validation boundaries, and future lab work.
 - [Evidence and Validation Index](docs/standards/evidence-and-validation-index.md) — distinguishes automated tests, documented procedures, and proposed independent experiments.
 
 ## Repository quality controls
