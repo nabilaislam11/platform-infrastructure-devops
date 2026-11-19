@@ -18,17 +18,17 @@ Sentinel provides monitoring, notification, and coordination for Redis primary/r
 2. Review the effective application configuration **without printing passwords or real endpoints**.
 3. Validate that the Sentinel master name used by the client matches the intended logical name.
 4. Confirm that the application can reach its approved Sentinel endpoints.
-5. Query Sentinel state from an authorized lab host using authenticated tools where required.
+5. Query Sentinel state from an approved diagnostic host using authenticated tools where required.
 6. Check whether the primary address returned by Sentinel is reachable from the application network.
 7. Review authentication, TLS support, DNS behavior, client timeouts, and connection-pool behavior.
 8. Correlate the incident with controlled failover events or configuration changes.
 
-## Read-only lab examples
+## Redis Sentinel diagnostic examples
 
-Use an isolated Redis Sentinel lab with a test master name such as `mymaster`. The examples assume a locally accessible Sentinel on the lab machine; they are not commands for an employer environment.
+The examples use a local Sentinel listener and a sample master group named `mymaster`.
 
 ```bash
-# Inspect the Sentinel's known master groups (no authentication in disposable lab).
+# Inspect the Sentinel's known master groups.
 redis-cli -h 127.0.0.1 -p 26379 SENTINEL masters
 
 # Discover the current primary address for the named lab group.
@@ -75,4 +75,4 @@ Avoid forced failover or destructive Redis commands during diagnosis without exp
 - [Redis Sentinel documentation](https://redis.io/docs/latest/operate/oss_and_stack/management/sentinel/)
 - [Spring Data Redis reference](https://docs.spring.io/spring-data/redis/reference/)
 
-*This runbook contains no actual employer configuration, node inventory, or operational event record.*
+
