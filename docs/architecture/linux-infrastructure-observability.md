@@ -1,7 +1,7 @@
 # Linux Infrastructure Observability: Architecture and Operational Considerations
 
 **Document type:** Engineering architecture study  
-**Status:** Independently authored reference; examples not validated against a deployed lab
+**Document:** Independent monitoring architecture reference
 
 ## 1. Engineering objective
 Build visibility into host availability, resource saturation, service health, and alert delivery while limiting operational overhead and unnecessary exposure.
@@ -45,5 +45,5 @@ These tools provide overlapping but distinct signals. A successful ICMP probe do
 ## 6. Verification approach
 In an authorized lab, test target discovery, controlled exporter shutdown, alert firing, notification routing, recovery, and documentation of observed timing. Record actual results separately from expected results.
 
-## 7. Scope and limitations
-This is a generalized architecture study informed by operational experience. It does not reproduce an employer topology, disclose production configuration, or claim that this exact architecture was deployed.
+## 7. Design application
+Use the reference architecture to assess signal coverage, access controls, collection resilience, and alert routing in authorized environments.
