@@ -1,7 +1,6 @@
 # SOP: SSH Access and Least-Privilege Sudo Validation
 
 **Type:** Access-control validation SOP  
-**Status:** Generalized reference, not an employer-specific policy
 
 ## Purpose
 Validate that a provisioned Linux identity can perform only the explicitly approved actions, without weakening authentication or exposing secrets.
@@ -18,7 +17,7 @@ Validate that a provisioned Linux identity can perform only the explicitly appro
 3. Inspect account expiry and password policy through approved administrative tooling.
 4. Confirm login through the authorized access path.
 5. Check allowed sudo commands with `sudo -l` from the intended user context.
-6. Test approved operations and carefully chosen denied operations in an isolated lab; never attempt prohibited actions against production systems merely to demonstrate a restriction.
+6. Validate permitted and denied operations using an approved test account and access policy.
 7. Verify auditability and record sanitized results.
 
 ## Read-only examples
@@ -44,4 +43,3 @@ Only authorized login paths and commands work; denied operations remain denied; 
 Restore approved policy from backup and validate access from an existing administrative session before closing it.
 
 ## Public documentation rule
-No real usernames, credential material, access lists, internal jump-host details, or employer-specific sudo policy.
