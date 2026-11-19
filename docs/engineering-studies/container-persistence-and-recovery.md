@@ -1,6 +1,6 @@
 # Container Persistence and Recovery: An Engineering Study
 
-**Status:** Independent analytical reference; no tests claimed as executed.
+**Focus:** Stateful container lifecycle, backup consistency, and recovery verification.
 
 ## Engineering question
 What survives a container restart, recreation, host restart, or storage failure, and how can operators verify recoverability?
@@ -40,9 +40,9 @@ These commands may display sensitive metadata or log content; do not publish raw
 - Backups exist but have never been restored successfully.
 
 ## Proposed experiment
-Deploy a disposable stateful application in a local lab; write test records; recreate its container with and without a persistent volume; compare retained state; test a backup and restore; document observed checksums and application-level validation. **No experiment results are asserted here.**
+Deploy a disposable stateful application in a local lab; write test records; recreate its container with and without a persistent volume; compare retained state; test a backup and restore; document observed checksums and application-level validation.
 
 ## Conclusion
 Persistence configuration is not the same as recoverability. Recovery claims require tested restoration and application-level verification.
 
-*This study contains no employer topology, deployment identifiers, or operational artifacts.*
+
