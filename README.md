@@ -23,9 +23,11 @@ An independently authored engineering knowledge base informed by hands-on experi
 - **Confidentiality:** never publish employer IP addresses, hostnames, credentials, internal diagrams, or proprietary configuration.
 - **Reproducibility:** use generic examples and independently controlled lab environments.
 
-## Scope and evidence
+## About This Repository
 
-These documents are educational adaptations of general engineering practices and professional experience. Examples are **not** claimed to have been deployed or validated in the exact form published here. Case studies will identify the evidence available and their limitations. No employer infrastructure details are included.
+This repository presents technical documentation, engineering methodologies, operational procedures, and troubleshooting practices developed from hands-on experience in enterprise Platform Infrastructure & DevOps.
+
+It focuses on Linux systems administration, infrastructure observability, security engineering, application operations, and reliability, with an emphasis on practical implementation, systematic troubleshooting, and operational best practices.
 
 ## Author
 
