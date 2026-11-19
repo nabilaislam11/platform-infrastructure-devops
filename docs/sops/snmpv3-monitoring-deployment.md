@@ -1,8 +1,7 @@
 # SOP: Secure SNMPv3 Monitoring on Linux
 
-**Classification:** Public, independently authored reference  
 **Focus:** SNMPv3 authPriv deployment, access control, and verification  
-**Scope:** Authorized Linux lab with a compatible Net-SNMP installation
+**Scope:** Linux systems with a compatible Net-SNMP installation
 
 ## 1. Purpose
 
@@ -15,8 +14,6 @@ Configure and verify authenticated, encrypted SNMPv3 monitoring using the `authP
 - Authorized monitoring collector and documented access policy.
 - Approved secret-generation and storage process.
 - Baseline service state, configuration backup, and rollback plan.
-
-**Do not copy credentials or endpoint information from any production system.**
 
 ## 3. Security design
 
@@ -45,7 +42,7 @@ Algorithm availability and configuration syntax vary across Net-SNMP releases an
 9. **Validate remotely:** Repeat from the authorized collector; confirm that unapproved sources cannot query the agent.
 10. **Review logs:** Confirm no unexpected authentication failures, restarts, or access-policy regressions.
 
-## 5. Safe illustrative commands
+## 5. Diagnostic commands
 
 These commands only inspect service and socket state. They do not configure users or expose secrets.
 
@@ -58,7 +55,7 @@ ss -lunp
 
 Package names and service units may differ by distribution.
 
-A **documentation-only** query structure is:
+SNMPv3 query structure:
 
 ```text
 snmpget -v3 -l authPriv -u <LAB_MONITOR_USER> \
@@ -68,14 +65,14 @@ snmpget -v3 -l authPriv -u <LAB_MONITOR_USER> \
 
 Avoid placing authentication and privacy passphrases directly in shell commands on shared systems because they may be exposed through process listings or shell history. Use the secure mechanism approved for the selected Net-SNMP version and environment.
 
-## 5A. Isolated Net-SNMP lab implementation
+## 5A. Net-SNMP configuration example
 
-This example is for a **disposable RHEL-compatible VM**, with a locally installed `net-snmp` and `net-snmp-utils` package. It changes system configuration; do not run it on managed infrastructure without a reviewed change.
+This example uses a RHEL-compatible system with `net-snmp` and `net-snmp-utils`. Review the existing service configuration and change requirements before modifying it.
 
-1. Install the approved packages in the lab: `sudo dnf install net-snmp net-snmp-utils`.
+1. Install the approved packages on the host: `sudo dnf install net-snmp net-snmp-utils`.
 2. Back up `/etc/snmp/snmpd.conf` with permissions preserved. Inspect existing `rouser`, `view`, and agent address directives before modifying them.
 3. With `snmpd` stopped, use the Net-SNMP-supported `net-snmp-create-v3-user` helper for your installed version. Check `net-snmp-create-v3-user --help` first: available options and supported algorithms vary. The helper commonly writes a persistent SNMPv3 identity and a read-only access rule; review generated files and permissions.
-4. Bind the lab agent to loopback for local testing using the version-supported `agentAddress udp:127.0.0.1:161` directive, ensuring it does not conflict with other configured listeners. Confirm the effective security view is restricted to intended read-only OIDs.
+4. Bind the agent to loopback for local testing using the version-supported `agentAddress udp:127.0.0.1:161` directive, ensuring it does not conflict with other configured listeners. Confirm the effective security view is restricted to intended read-only OIDs.
 5. Start `snmpd` and inspect `systemctl status snmpd`, `journalctl -u snmpd`, and `ss -lunp`.
 6. Run a local authenticated and encrypted query using the **approved secure credential method** for your Net-SNMP version. Avoid putting passphrases in a published command, environment dump, shell history, or process listing. A conceptual query is:
 
@@ -87,14 +84,14 @@ If MIB name resolution is not configured, use numeric OID `1.3.6.1.2.1.1.3.0`. T
 
 7. Confirm an unauthorized identity cannot retrieve the OID. To test a remote collector, first plan an approved listener/firewall configuration and verify network isolation; loopback-only binding does not permit remote polling.
 
-### Lab acceptance and rollback
+### Acceptance and rollback
 
 - Authorized `authPriv` query returns a valid uptime value; unauthorized query fails.
 - SNMPv1/v2c community-based access is not inadvertently enabled.
 - Agent listens only on the intended interface and UDP port.
 - Restore the backed-up configuration and previous service state if validation fails.
 
-**Security limitation:** Standard Net-SNMP command-line authentication flags may expose secrets in process arguments. This document deliberately does not invent a universally safe credential-passing method. Use the supported local security tooling and policy for the specific release.
+Use a credential-handling mechanism supported by the installed Net-SNMP version; command-line passphrases may be visible in process arguments.
 
 ## 6. Verification checklist
 
@@ -123,8 +120,6 @@ Never disable authentication or encryption merely to make a production polling t
 Restore the previously approved configuration and service state, revert network-policy changes through the change process, and verify expected baseline behavior. Remove test identities only when their lifecycle and impact have been reviewed.
 
 ## 9. References
-
-The procedure uses independently authored, generic lab configuration guidance.
 
 - [Net-SNMP documentation](https://www.net-snmp.org/docs/)
 - [Net-SNMP project](https://www.net-snmp.org/)
