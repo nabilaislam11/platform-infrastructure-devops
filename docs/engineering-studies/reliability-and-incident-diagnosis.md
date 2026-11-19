@@ -1,8 +1,7 @@
 # Reliability Engineering and Incident Diagnosis for Linux Services
 
 **Type:** Applied engineering study  
-**Scope:** Generic Linux and application services  
-**Focus:** Reliability modeling, fault isolation, and reproducible validation
+**Focus:** Reliability modeling, fault isolation, and recovery verification
 
 ## Abstract
 
@@ -63,7 +62,7 @@ A passing check at one layer does not prove that all higher layers are healthy.
 
 Severity should be based on impact, not on how alarming a metric looks. Assign an incident owner, record timestamps, define a communication cadence, and document the next decision point. Do not publish internal incident channels or contacts.
 
-## 4. Failure-mode and effects analysis (illustrative)
+## 4. Failure-mode and effects analysis
 
 | Failure mode | Impact | Detectability | Mitigation to evaluate |
 |---|---|---|---|
@@ -87,17 +86,9 @@ State how eligible requests and timestamps are defined. If traffic is absent, a 
 
 For an SLO of 99.95% across a 30-day period, the nominal unavailability budget is 21.6 minutes **only if availability is defined as a time fraction**. Request-based SLOs require request-count-based budgets.
 
-## 6. Proposed independent lab exercises
+## 6. Recovery verification
 
-| ID | Controlled fault | Expected evidence | Result |
-|---|---|---|---|
-| R1 | Stop a disposable HTTP service | Application probe fails while host remains reachable | Record observation |
-| R2 | Stop metrics exporter | Prometheus target becomes unavailable | Record observation |
-| R3 | Deny a test dependency connection | Dependency errors appear in application telemetry | Record observation |
-| R4 | Revert a deliberately bad lab configuration | Readiness returns after rollback | Record observation |
-| R5 | Test a notification receiver | Alert and delivery timestamps can be compared | Record observation |
-
-Do not report actual latency or reliability improvements until results are collected in a controlled environment.
+A reliable incident response connects failure detection to root-cause isolation, service restoration, and post-recovery checks. Key signals include application readiness, dependency connectivity, metrics freshness, alert resolution, and functional correctness.
 
 ## 7. Operational lessons
 
@@ -109,4 +100,3 @@ Reliable operations require a distinction between symptom and cause, process liv
 - [Prometheus alerting practices](https://prometheus.io/docs/practices/alerting/)
 - [systemd documentation](https://www.freedesktop.org/software/systemd/man/latest/systemctl.html)
 
-*Independent engineering study. No employer-specific infrastructure or incident information is included.*
