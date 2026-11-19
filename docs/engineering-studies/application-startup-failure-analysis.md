@@ -42,8 +42,5 @@ A Spring Boot application using HikariCP may fail during datasource initializati
 - Changing hosts files when the application uses a literal IP address and DNS is not involved.
 - Disabling TLS verification to bypass certificate problems.
 
-## Proposed lab validation
-Build a local demonstration app and database; independently induce DNS failure, refused connection, invalid credentials, and unavailable database. Record sanitized logs and actual recovery times.
-
 ## Diagnostic interpretation
 Interpret exception chains alongside application configuration, dependency health, and observed network behavior. Validate each root-cause hypothesis with a targeted check.
