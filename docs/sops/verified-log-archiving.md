@@ -2,7 +2,7 @@
 
 **Objective:** Archive an explicitly selected set of regular log files, prove source-file and archive-entry counts match, verify content and destination integrity, and retain originals.
 
-**Implementation:** [Verified archiving utility](../../scripts/archive_verified.py) (Python 3 standard library; independently authored). This is a generic reference workflow, not a production execution record.
+**Implementation:** [Verified archiving utility](../../scripts/archive_verified.py) (Python 3 standard library).
 
 ## Preconditions
 
@@ -22,7 +22,7 @@
 6. Repeat member and content checks at the destination, and compare the archive checksum with the staged archive.
 7. Report source-file count and verified archive-entry count; retain source files.
 
-## Disposable lab example
+## Archiving example
 
 ```bash
 mkdir -p ./sample-logs ./archives
@@ -53,4 +53,3 @@ The script reports failure for an empty selection, changed content during stagin
 
 Stop and investigate the selection rule, file rotation, changed content, partial transfer, or permissions. Retain all source files. An incomplete destination archive must be handled only under an authorized cleanup procedure; the utility does not automatically delete it.
 
-*Never use actual employer paths, filenames, or logs in this public repository.*
