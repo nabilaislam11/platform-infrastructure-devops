@@ -2,7 +2,7 @@
 
 **Applied Systems Engineering | Enterprise Linux | Observability | Reliability | Security Operations**
 
-An independent engineering knowledge base informed by hands-on Platform Infrastructure & DevOps experience at **Nagad Limited**. It presents Linux administration, observability, security operations, deployment verification, and reliability practices through technical studies, runbooks, SOPs, and reusable lab utilities. This is not official employer documentation.
+A technical engineering portfolio covering enterprise Linux administration, observability, security operations, deployment verification, and reliability engineering. It brings together practical system administration workflows, troubleshooting runbooks, standard operating procedures, engineering studies, and automation utilities.
 
 ## Documentation Library
 
@@ -45,10 +45,6 @@ An independent engineering knowledge base informed by hands-on Platform Infrastr
 | [Method of Procedure (MOP)](templates/mop.md) | Change planning, execution, rollback, and sign-off |
 | [Incident Review](templates/incident-review.md) | Evidence-led review, root-cause analysis and preventive actions |
 
-### Documentation Standards
-
-- [Documentation & Confidentiality Standard](docs/standards/documentation-and-confidentiality.md) — evidence labeling, publication safety, and technical review requirements.
-
 ## Engineering verification
 
 - [Engineering Verification Index](docs/standards/evidence-and-validation-index.md) — procedures, automated checks, and lab validation plans.
@@ -56,18 +52,16 @@ An independent engineering knowledge base informed by hands-on Platform Infrastr
 ## Repository quality controls
 
 - [Quality Assurance Checklist](docs/standards/quality-assurance-checklist.md) — technical review, confidentiality, navigation, and evidence requirements.
-- [Contribution and Review Guide](CONTRIBUTING.md) — documentation conventions and publication checks.
 - [Verified Log Archive Utility](scripts/archive_verified.py) — independently authored, non-destructive archive creation and content verification.
 - [Automated Markdown Validation](scripts/validate_repository.py) — local link verification and heuristic sensitive-pattern warnings; run with `python3 scripts/validate_repository.py`.
 - [GitHub Actions Validation](.github/workflows/docs-validation.yml) — runs documentation checks on Markdown changes.
 
-## Engineering principles
+## Engineering approach
 
-- **Accuracy:** distinguish observed behavior, hypotheses, and verified results.
-- **Safety:** assess impact, obtain authorization, and plan rollback before changes.
-- **Verification:** define explicit success criteria and retain non-sensitive evidence.
-- **Confidentiality:** never publish employer IP addresses, hostnames, credentials, internal diagrams, or proprietary configuration.
-- **Reproducibility:** use generic examples and independently controlled lab environments.
+- **Operational reliability:** establish baselines, diagnose failures systematically, and validate recovery.
+- **Controlled change:** define prerequisites, verification criteria, and rollback steps.
+- **Automation:** use repeatable scripts and explicit integrity checks.
+- **Observability:** correlate host metrics, service health, and actionable alerts.
 
 ## Author
 
@@ -77,4 +71,3 @@ An independent engineering knowledge base informed by hands-on Platform Infrastr
 Email: **nabila.borno@nagad.com.bd**  
 GitHub: [nabilaislam11](https://github.com/nabilaislam11)
 
-*Independent personal repository; not affiliated with, endorsed by, or maintained on behalf of Nagad Limited.*
