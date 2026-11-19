@@ -49,6 +49,10 @@ An independent engineering knowledge base informed by hands-on Platform Infrastr
 
 - [Documentation & Confidentiality Standard](docs/standards/documentation-and-confidentiality.md) — evidence labeling, publication safety, and technical review requirements.
 
+## Evidence and validation
+
+- [Evidence and Validation Index](docs/standards/evidence-and-validation-index.md) — distinguishes automated tests, documented procedures, and proposed independent experiments.
+
 ## Repository quality controls
 
 - [Quality Assurance Checklist](docs/standards/quality-assurance-checklist.md) — technical review, confidentiality, navigation, and evidence requirements.
