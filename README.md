@@ -14,6 +14,7 @@ An independently authored engineering knowledge base informed by hands-on experi
 | [Observability Design & Failure Analysis](docs/engineering-studies/observability-design-and-failure-analysis.md) | Failure modes, alert quality, proposed validation experiments |
 | [Application Startup Failure Analysis](docs/engineering-studies/application-startup-failure-analysis.md) | Java/Spring initialization, database dependencies, diagnostic reasoning |
 | [Container Persistence & Recovery](docs/engineering-studies/container-persistence-and-recovery.md) | Durable storage, backup consistency, recovery planning |
+| [Reliability & Incident Diagnosis](docs/engineering-studies/reliability-and-incident-diagnosis.md) | Service reliability, fault isolation, SLO measurement and proposed experiments |
 
 ### Standard Operating Procedures
 
@@ -24,6 +25,7 @@ An independently authored engineering knowledge base informed by hands-on experi
 | [Verified Log Archiving](docs/sops/verified-log-archiving.md) | Source counts, archive integrity, destination verification |
 | [SSH Access & Sudo Validation](docs/sops/ssh-access-and-sudo-validation.md) | Access controls, least privilege, safe validation |
 | [Application Deployment Verification](docs/sops/application-deployment-verification.md) | Release integrity, readiness, rollback criteria |
+| [Linux Patch Change Management](docs/sops/linux-patch-change-management.md) | Patching risk, canary validation, recovery planning |
 
 ### Troubleshooting Runbooks
 
@@ -33,6 +35,7 @@ An independently authored engineering knowledge base informed by hands-on experi
 | [Linux systemd Service Failure](docs/runbooks/linux-systemd-service-failure.md) | Exit status, dependencies, permissions, restart loops |
 | [Linux Network Connectivity Diagnosis](docs/runbooks/linux-network-connectivity-diagnosis.md) | DNS, routing, TCP, TLS, and proxy failure isolation |
 | [Container Service Troubleshooting](docs/runbooks/container-service-troubleshooting.md) | Container startup, networking, mounts, resource limits |
+| [Redis Sentinel Client Connectivity](docs/runbooks/redis-sentinel-client-connectivity.md) | Discovery, authentication, failover and dependency diagnosis |
 
 ### Engineering Templates
 
@@ -40,6 +43,11 @@ An independently authored engineering knowledge base informed by hands-on experi
 |---|---|
 | [Engineering Case Study](templates/case-study.md) | Structured evidence, investigation, validation, and conclusions |
 | [Method of Procedure (MOP)](templates/mop.md) | Change planning, execution, rollback, and sign-off |
+| [Incident Review](templates/incident-review.md) | Evidence-led review, root-cause uncertainty and preventive actions |
+
+### Documentation Standards
+
+- [Documentation & Confidentiality Standard](docs/standards/documentation-and-confidentiality.md) — evidence labeling, publication safety, and technical review requirements.
 
 ## Engineering principles
 
