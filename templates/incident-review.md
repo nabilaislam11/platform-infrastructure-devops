@@ -1,22 +1,22 @@
-# Incident Review: [Generic Title]
+# Incident Review: [Incident Title]
 
 **Document type:** Post-incident review template  
 **Status:** Draft  
 **Evidence classification:** Observed / Inferred / Proposed
 
 ## Summary
-Describe the affected service class, impact and restoration in non-sensitive terms.
+Describe the affected service, impact, and restoration.
 
 ## Impact and detection
 - User-visible impact:
 - Detection signal:
 - Detection gap:
-- Start and end timestamps (only when verified and publishable):
+- Start and end timestamps:
 
 ## Timeline
 | Time | Observation or action | Evidence source |
 |---|---|---|
-| [time] | [event] | [sanitized source] |
+| [time] | [event] | [evidence source] |
 
 ## Technical analysis
 ### Confirmed cause
@@ -36,5 +36,3 @@ Explain containment, authorized remediation, validation and rollback considerati
 |---|---|---|
 | [action] | [risk reduced] | [test] |
 
-## Publication review
-Confirm no real infrastructure identifiers, proprietary details, personal data or unapproved incident evidence remain.
