@@ -1,7 +1,7 @@
 # Runbook: Linux systemd Service Fails to Start
 
 **Type:** Generalized troubleshooting runbook  
-**Status:** Independently authored reference; no production incident or test result claimed
+**Focus:** systemd failure classification, evidence collection, and recovery
 
 ## Objective
 Diagnose a failed or repeatedly restarting systemd-managed service while preserving evidence and avoiding unnecessary changes.
@@ -50,4 +50,4 @@ Replace `example.service` with an approved lab or managed service. Logs can cont
 Restore the previous approved unit, environment, and binary/configuration version as appropriate; run `systemctl daemon-reload` after unit changes and validate baseline behavior.
 
 ## Boundaries
-No employer hostnames, logs, service names, network addresses, or proprietary configuration are included.
+Examples use generic service identifiers and authorized lab contexts.
