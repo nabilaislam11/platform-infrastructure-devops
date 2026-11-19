@@ -11,10 +11,10 @@ An independent engineering knowledge base informed by hands-on Platform Infrastr
 | Document | Engineering focus |
 |---|---|
 | [Linux Infrastructure Observability](docs/architecture/linux-infrastructure-observability.md) | Monitoring architecture, signal coverage, operational trade-offs |
-| [Observability Design & Failure Analysis](docs/engineering-studies/observability-design-and-failure-analysis.md) | Failure modes, alert quality, proposed validation experiments |
+| [Observability Design & Failure Analysis](docs/engineering-studies/observability-design-and-failure-analysis.md) | Failure modes, alert quality, monitoring validation methodology |
 | [Application Startup Failure Analysis](docs/engineering-studies/application-startup-failure-analysis.md) | Java/Spring initialization, database dependencies, diagnostic reasoning |
 | [Container Persistence & Recovery](docs/engineering-studies/container-persistence-and-recovery.md) | Durable storage, backup consistency, recovery planning |
-| [Reliability & Incident Diagnosis](docs/engineering-studies/reliability-and-incident-diagnosis.md) | Service reliability, fault isolation, SLO measurement and proposed experiments |
+| [Reliability & Incident Diagnosis](docs/engineering-studies/reliability-and-incident-diagnosis.md) | Service reliability, fault isolation, SLO measurement and incident response |
 
 ### Standard Operating Procedures
 
@@ -43,16 +43,15 @@ An independent engineering knowledge base informed by hands-on Platform Infrastr
 |---|---|
 | [Engineering Case Study](templates/case-study.md) | Structured evidence, investigation, validation, and conclusions |
 | [Method of Procedure (MOP)](templates/mop.md) | Change planning, execution, rollback, and sign-off |
-| [Incident Review](templates/incident-review.md) | Evidence-led review, root-cause uncertainty and preventive actions |
+| [Incident Review](templates/incident-review.md) | Evidence-led review, root-cause analysis and preventive actions |
 
 ### Documentation Standards
 
 - [Documentation & Confidentiality Standard](docs/standards/documentation-and-confidentiality.md) — evidence labeling, publication safety, and technical review requirements.
 
-## Evidence and validation
+## Engineering verification
 
-- [Repository Review and Publication Status](docs/standards/repository-review.md) — completed editorial improvements, validation boundaries, and future lab work.
-- [Evidence and Validation Index](docs/standards/evidence-and-validation-index.md) — distinguishes automated tests, documented procedures, and proposed independent experiments.
+- [Engineering Verification Index](docs/standards/evidence-and-validation-index.md) — procedures, automated checks, and lab validation plans.
 
 ## Repository quality controls
 
