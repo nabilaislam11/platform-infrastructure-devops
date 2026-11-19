@@ -1,7 +1,7 @@
 # Method of Procedure: [Change Title]
 
 **Change owner:** [Role]  
-**Environment:** [Sanitized description]  
+**Environment:** [System or service scope]  
 **Status:** Draft / Approved / Executed / Validated
 
 ## Purpose and scope
@@ -23,7 +23,5 @@ Specify measurable post-change checks and acceptance criteria.
 Document triggers, steps, responsible role, and validation of restored service.
 
 ## Evidence and sign-off
-Record sanitized logs, timestamps, outcome, and reviewer confirmation.
+Record verification results, timestamps, outcome, and reviewer confirmation.
 
-## Security review
-Remove secrets, internal identifiers, and confidential infrastructure details before publication.
