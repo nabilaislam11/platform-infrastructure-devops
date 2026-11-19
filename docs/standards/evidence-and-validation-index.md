@@ -1,6 +1,6 @@
 # Engineering Verification Index
 
-This index organizes practical engineering references, automated checks, and operational verification methods.
+This index connects engineering procedures, automation checks, and operational verification methods.
 
 | Engineering area | Technical resource | Verification approach |
 |---|---|---|
