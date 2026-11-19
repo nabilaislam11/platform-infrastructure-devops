@@ -2,7 +2,7 @@
 
 **Type:** Technical troubleshooting runbook  
 **Scope:** Authorized test environments and generalized production principles  
-**Status:** Reference procedure; no specific incident or deployment is claimed
+**Focus:** Sentinel discovery, client connectivity, and failover diagnostics
 
 ## Problem statement
 
