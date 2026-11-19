@@ -39,8 +39,9 @@ These commands may display sensitive metadata or log content; do not publish raw
 - Restart policies conceal repeated application failures.
 - Backups exist but have never been restored successfully.
 
-## Proposed experiment
-Deploy a disposable stateful application in a local lab; write test records; recreate its container with and without a persistent volume; compare retained state; test a backup and restore; document observed checksums and application-level validation.
+## Recovery verification
+
+Recovery assessment combines persistent mount inspection, backup consistency, restoration checks, file ownership, and application-level health verification. A successful container restart alone does not establish data recoverability.
 
 ## Conclusion
 Persistence configuration is not the same as recoverability. Recovery claims require tested restoration and application-level verification.
