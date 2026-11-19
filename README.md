@@ -22,7 +22,7 @@ An independently authored engineering knowledge base informed by hands-on experi
 |---|---|
 | [Node Exporter Deployment](docs/sops/node-exporter-deployment.md) | Secure agent deployment and scrape validation |
 | [SNMPv3 Monitoring Deployment](docs/sops/snmpv3-monitoring-deployment.md) | Authenticated and encrypted infrastructure monitoring |
-| [Verified Log Archiving](docs/sops/verified-log-archiving.md) | Source counts, archive integrity, destination verification |
+| [Verified Log Archiving](docs/sops/verified-log-archiving.md) | Source counts, member hashes, destination verification; [Python utility](scripts/archive_verified.py) |
 | [SSH Access & Sudo Validation](docs/sops/ssh-access-and-sudo-validation.md) | Access controls, least privilege, safe validation |
 | [Application Deployment Verification](docs/sops/application-deployment-verification.md) | Release integrity, readiness, rollback criteria |
 | [Linux Patch Change Management](docs/sops/linux-patch-change-management.md) | Patching risk, canary validation, recovery planning |
@@ -53,6 +53,7 @@ An independently authored engineering knowledge base informed by hands-on experi
 
 - [Quality Assurance Checklist](docs/standards/quality-assurance-checklist.md) — technical review, confidentiality, navigation, and evidence requirements.
 - [Contribution and Review Guide](CONTRIBUTING.md) — documentation conventions and publication checks.
+- [Verified Log Archive Utility](scripts/archive_verified.py) — independently authored, non-destructive archive creation and content verification.
 - [Automated Markdown Validation](scripts/validate_repository.py) — local link verification and heuristic sensitive-pattern warnings; run with `python3 scripts/validate_repository.py`.
 - [GitHub Actions Validation](.github/workflows/docs-validation.yml) — runs documentation checks on Markdown changes.
 
