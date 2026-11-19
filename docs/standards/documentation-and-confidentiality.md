@@ -1,4 +1,4 @@
-# Engineering Documentation and Publication Standard
+# Engineering Documentation Standard
 
 **Purpose:** Maintain technically accurate, consistent, and reviewable engineering documentation.
 
@@ -23,12 +23,12 @@ Use clear labels:
 
 Never fabricate benchmark values, incident timelines, test results, change approvals, or successful deployments.
 
-## 5. Review workflow
+## 3. Review workflow
 
 1. Draft technical content.
 2. Check correctness against official product documentation.
-3. Review confidentiality and intellectual-property boundaries.
+3. Review technical scope and source attribution.
 4. Verify links and internal navigation.
-5. Record whether examples were executed or are illustrative.
+5. Identify which findings are measured and which are analytical.
 6. Finalize the reviewed engineering documentation.
 
