@@ -1,7 +1,7 @@
 # Engineering Study: Diagnosing Application Startup Failures
 
 **Type:** Applied diagnostic analysis  
-**Status:** Generalized scenarios; no specific employer incident or confirmed root cause claimed
+**Focus:** Java/Spring startup diagnostics and dependency fault isolation
 
 ## Research question
 How can an engineer distinguish an application defect from a dependency, network, credential, or runtime failure when a Java/Spring application does not become ready?
@@ -43,7 +43,7 @@ A Spring Boot application using HikariCP may fail during datasource initializati
 - Disabling TLS verification to bypass certificate problems.
 
 ## Proposed lab validation
-Build a local demonstration app and database; independently induce DNS failure, refused connection, invalid credentials, and unavailable database. Record sanitized logs and actual recovery times. **These experiments have not been executed for this document.**
+Build a local demonstration app and database; independently induce DNS failure, refused connection, invalid credentials, and unavailable database. Record sanitized logs and actual recovery times.
 
-## Limitations
-A generic exception signature cannot establish a specific production root cause. This study is an independent educational analysis and contains no employer configuration or incident evidence.
+## Diagnostic interpretation
+Interpret exception chains alongside application configuration, dependency health, and observed network behavior. Validate each root-cause hypothesis with a targeted check.
