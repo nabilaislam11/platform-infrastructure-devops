@@ -1,8 +1,7 @@
 # SOP: Deploy and Validate Prometheus Node Exporter on Linux
 
 **Type:** Standard Operating Procedure  
-**Scope:** Authorized Linux lab or managed host  
-**Status:** Reference procedure; version and platform compatibility must be verified before use
+**Scope:** Linux hosts with systemd  
 
 ## Preconditions
 - Approved change and maintenance window where required.
@@ -20,18 +19,18 @@
 7. Add or update the Prometheus scrape target through the organization's change process.
 8. Confirm the target is UP and expected metrics are queryable; observe behavior across at least one scrape interval.
 
-## Reproducible isolated-lab example
+## Node Exporter systemd configuration
 
 The following example assumes an **already downloaded and checksum-verified** Linux-compatible Node Exporter binary. The service runs with a dedicated non-login identity and listens on loopback, so a remote Prometheus collector cannot scrape it until an explicitly approved exposure or secure collection design is configured.
 
 ```bash
-# Review on a disposable lab VM; commands below modify system state.
+# Install the verified binary and create the service account.
 sudo useradd --system --no-create-home --shell /sbin/nologin node_exporter
 sudo install -o root -g root -m 0755 ./node_exporter /usr/local/bin/node_exporter
 /usr/local/bin/node_exporter --version
 ```
 
-Create `/etc/systemd/system/node_exporter.service` in the lab:
+Create `/etc/systemd/system/node_exporter.service`:
 
 ```ini
 [Unit]
@@ -55,7 +54,7 @@ PrivateTmp=true
 WantedBy=multi-user.target
 ```
 
-Activate and validate on the lab VM:
+Activate and validate:
 
 ```bash
 sudo systemctl daemon-reload
@@ -69,7 +68,7 @@ curl --fail --silent http://127.0.0.1:9100/metrics | head
 
 A collector on a different host **cannot** reach a loopback-bound exporter directly. For remote collection, review supported TLS/authentication options, the approved listener interface, and firewall restrictions rather than exposing metrics broadly.
 
-### Rollback in the disposable lab
+### Rollback
 
 ```bash
 sudo systemctl disable --now node_exporter
@@ -77,7 +76,7 @@ sudo rm -f /etc/systemd/system/node_exporter.service
 sudo systemctl daemon-reload
 ```
 
-Removing the binary or service identity is a separate approved cleanup decision. Never execute the example blindly on a production host.
+Removing the binary or service identity is a separate approved cleanup decision. Review host-specific requirements before applying configuration changes.
 
 ## Verification checklist
 - [ ] Binary checksum matches the official release
@@ -91,4 +90,4 @@ Removing the binary or service identity is a separate approved cleanup decision.
 Restore the previous unit and binary or stop/disable the new service, revert scrape configuration and network changes, then verify baseline monitoring behavior. Preserve non-sensitive change evidence.
 
 ## Notes
-Do not expose Node Exporter publicly. Use authenticated or encrypted transport where required by the architecture and supported by the deployment design. This SOP is an educational adaptation, not an employer procedure.
+Do not expose Node Exporter publicly. Use authenticated or encrypted transport where required by the architecture and supported by the deployment design.
