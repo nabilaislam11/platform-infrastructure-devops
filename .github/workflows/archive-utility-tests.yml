@@ -38,3 +38,21 @@ jobs:
             echo "Expected no-overwrite refusal" >&2
             exit 1
           fi
+      - name: Test empty selection and unusual filenames
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p empty-input extra-output unusual-input
+          if python3 scripts/archive_verified.py --source empty-input --destination extra-output --pattern '*.log' --name empty.tar.gz; then
+            echo 'Expected empty-selection failure' >&2
+            exit 1
+          fi
+          printf 'safe content\n' > 'unusual-input/a file with spaces.log'
+          printf 'newline name\n' > $'unusual-input/a\nnewline.log'
+          ln -s 'a file with spaces.log' unusual-input/linked.log
+          python3 scripts/archive_verified.py --source unusual-input --destination extra-output --pattern '*.log' --name unusual.tar.gz
+          python3 - <<'PY'
+          import tarfile
+          with tarfile.open('extra-output/unusual.tar.gz', 'r:gz') as t:
+              assert sorted(t.getnames()) == ['a file with spaces.log', 'a\nnewline.log']
+          PY
