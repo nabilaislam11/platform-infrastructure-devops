@@ -1,7 +1,7 @@
 # Engineering Case Study: [Title]
 
 **Status:** Draft / Investigated / Verified  
-**Environment:** Sanitized lab or generalized professional context
+**Environment:** System and service context
 
 ## Problem statement
 What operational or technical problem is being investigated?
@@ -19,10 +19,8 @@ Document diagnostic steps, alternative explanations, and results.
 State whether remediation was actually implemented and validated.
 
 ## Validation
-Specify tests, expected outcomes, actual results, and limitations.
+Describe verification checks, outcomes, and operational implications.
 
 ## Lessons learned
 Explain generalizable engineering implications.
 
-## Confidentiality review
-Confirm that no employer-specific identifiers, credentials, or proprietary materials are included.
