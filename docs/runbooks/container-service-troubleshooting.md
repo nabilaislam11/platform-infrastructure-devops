@@ -1,6 +1,5 @@
 # Runbook: Containerized Service Troubleshooting
 
-**Status:** Independently authored reference; illustrative commands only.
 
 ## Symptom categories
 - Container exits immediately or enters a restart loop.
