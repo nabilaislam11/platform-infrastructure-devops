@@ -42,8 +42,17 @@ These tools provide overlapping but distinct signals. A successful ICMP probe do
 | False positive | Alert during planned maintenance | Validate alert semantics and approved silence windows |
 | Monitoring blind spot | Endpoint responds but service fails | Add application and dependency-specific health signals |
 
-## 6. Verification approach
-In an authorized lab, test target discovery, controlled exporter shutdown, alert firing, notification routing, recovery, and documentation of observed timing. Record actual results separately from expected results.
+## 6. Monitoring verification
+
+Monitoring health is assessed across the complete telemetry and alerting pipeline:
+
+1. **Target discovery:** Confirm expected Linux targets appear in Prometheus and expose current metrics.
+2. **Scrape health:** Review target status, scrape errors, and metric freshness.
+3. **Alert evaluation:** Inspect Prometheus alert states and the conditions defined by alert rules.
+4. **Notification routing:** Review Alertmanager routing, grouping, silences, and receiver configuration.
+5. **Recovery:** Confirm restored metrics collection, resolved alerts, and normal service health.
+
+This sequence supports systematic diagnosis of missing metrics, unavailable exporters, delayed alerts, and notification failures.
 
 ## 7. Design application
 Use the reference architecture to assess signal coverage, access controls, collection resilience, and alert routing in authorized environments.
