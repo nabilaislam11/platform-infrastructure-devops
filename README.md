@@ -49,6 +49,13 @@ An independently authored engineering knowledge base informed by hands-on experi
 
 - [Documentation & Confidentiality Standard](docs/standards/documentation-and-confidentiality.md) — evidence labeling, publication safety, and technical review requirements.
 
+## Repository quality controls
+
+- [Quality Assurance Checklist](docs/standards/quality-assurance-checklist.md) — technical review, confidentiality, navigation, and evidence requirements.
+- [Contribution and Review Guide](CONTRIBUTING.md) — documentation conventions and publication checks.
+- [Automated Markdown Validation](scripts/validate_repository.py) — local link verification and heuristic sensitive-pattern warnings; run with `python3 scripts/validate_repository.py`.
+- [GitHub Actions Validation](.github/workflows/docs-validation.yml) — runs documentation checks on Markdown changes.
+
 ## Engineering principles
 
 - **Accuracy:** distinguish observed behavior, hypotheses, and verified results.
