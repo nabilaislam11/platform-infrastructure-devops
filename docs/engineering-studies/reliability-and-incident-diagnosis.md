@@ -2,7 +2,7 @@
 
 **Type:** Applied engineering study  
 **Scope:** Generic Linux and application services  
-**Evidence status:** Analytical framework and proposed lab tests; no production incident is represented
+**Focus:** Reliability modeling, fault isolation, and reproducible validation
 
 ## Abstract
 
@@ -91,11 +91,11 @@ For an SLO of 99.95% across a 30-day period, the nominal unavailability budget i
 
 | ID | Controlled fault | Expected evidence | Result |
 |---|---|---|---|
-| R1 | Stop a disposable HTTP service | Application probe fails while host remains reachable | Not executed |
-| R2 | Stop metrics exporter | Prometheus target becomes unavailable | Not executed |
-| R3 | Deny a test dependency connection | Dependency errors appear in application telemetry | Not executed |
-| R4 | Revert a deliberately bad lab configuration | Readiness returns after rollback | Not executed |
-| R5 | Test a notification receiver | Alert and delivery timestamps can be compared | Not executed |
+| R1 | Stop a disposable HTTP service | Application probe fails while host remains reachable | Record observation |
+| R2 | Stop metrics exporter | Prometheus target becomes unavailable | Record observation |
+| R3 | Deny a test dependency connection | Dependency errors appear in application telemetry | Record observation |
+| R4 | Revert a deliberately bad lab configuration | Readiness returns after rollback | Record observation |
+| R5 | Test a notification receiver | Alert and delivery timestamps can be compared | Record observation |
 
 Do not report actual latency or reliability improvements until results are collected in a controlled environment.
 
