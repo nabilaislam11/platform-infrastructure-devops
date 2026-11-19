@@ -20,6 +20,65 @@
 7. Add or update the Prometheus scrape target through the organization's change process.
 8. Confirm the target is UP and expected metrics are queryable; observe behavior across at least one scrape interval.
 
+## Reproducible isolated-lab example
+
+The following example assumes an **already downloaded and checksum-verified** Linux-compatible Node Exporter binary. The service runs with a dedicated non-login identity and listens on loopback, so a remote Prometheus collector cannot scrape it until an explicitly approved exposure or secure collection design is configured.
+
+```bash
+# Review on a disposable lab VM; commands below modify system state.
+sudo useradd --system --no-create-home --shell /sbin/nologin node_exporter
+sudo install -o root -g root -m 0755 ./node_exporter /usr/local/bin/node_exporter
+/usr/local/bin/node_exporter --version
+```
+
+Create `/etc/systemd/system/node_exporter.service` in the lab:
+
+```ini
+[Unit]
+Description=Prometheus Node Exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=node_exporter
+Group=node_exporter
+ExecStart=/usr/local/bin/node_exporter --web.listen-address=127.0.0.1:9100
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Activate and validate on the lab VM:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now node_exporter
+systemctl is-active node_exporter
+systemctl status node_exporter --no-pager
+curl --fail --silent http://127.0.0.1:9100/metrics | head
+```
+
+**Caution:** Piping `curl` into `head` may cause a benign broken-pipe message. For a strict check, use `curl --fail --silent --output /tmp/node-exporter-lab.metrics http://127.0.0.1:9100/metrics` and inspect the file. The hardening directives may restrict collectors or filesystem visibility depending on the host; test before adapting this unit.
+
+A collector on a different host **cannot** reach a loopback-bound exporter directly. For remote collection, review supported TLS/authentication options, the approved listener interface, and firewall restrictions rather than exposing metrics broadly.
+
+### Rollback in the disposable lab
+
+```bash
+sudo systemctl disable --now node_exporter
+sudo rm -f /etc/systemd/system/node_exporter.service
+sudo systemctl daemon-reload
+```
+
+Removing the binary or service identity is a separate approved cleanup decision. Never execute the example blindly on a production host.
+
 ## Verification checklist
 - [ ] Binary checksum matches the official release
 - [ ] Dedicated service identity and expected permissions
