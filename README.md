@@ -2,7 +2,7 @@
 
 **Applied Systems Engineering | Enterprise Linux | Observability | Reliability | Security Operations**
 
-An independently authored engineering knowledge base informed by hands-on experience in platform infrastructure and DevOps at **Nagad Limited**. It documents operational methodologies, engineering trade-offs, troubleshooting techniques, and safe verification procedures. This is not official Nagad documentation.
+An independent engineering knowledge base informed by hands-on Platform Infrastructure & DevOps experience at **Nagad Limited**. It presents Linux administration, observability, security operations, deployment verification, and reliability practices through technical studies, runbooks, SOPs, and reusable lab utilities. This is not official employer documentation.
 
 ## Documentation Library
 
@@ -64,12 +64,6 @@ An independently authored engineering knowledge base informed by hands-on experi
 - **Verification:** define explicit success criteria and retain non-sensitive evidence.
 - **Confidentiality:** never publish employer IP addresses, hostnames, credentials, internal diagrams, or proprietary configuration.
 - **Reproducibility:** use generic examples and independently controlled lab environments.
-
-## About This Repository
-
-This repository presents technical documentation, engineering methodologies, operational procedures, and troubleshooting practices developed from hands-on experience in enterprise Platform Infrastructure & DevOps.
-
-It focuses on Linux systems administration, infrastructure observability, security engineering, application operations, and reliability, with an emphasis on practical implementation, systematic troubleshooting, and operational best practices.
 
 ## Author
 
