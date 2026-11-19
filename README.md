@@ -52,7 +52,7 @@ A technical engineering portfolio covering enterprise Linux administration, obse
 ## Repository quality controls
 
 - [Quality Assurance Checklist](docs/standards/quality-assurance-checklist.md) — technical review, confidentiality, navigation, and evidence requirements.
-- [Verified Log Archive Utility](scripts/archive_verified.py) — independently authored, non-destructive archive creation and content verification.
+- [Verified Log Archive Utility](scripts/archive_verified.py) — non-destructive archive creation and content verification.
 - [Automated Markdown Validation](scripts/validate_repository.py) — local link verification and heuristic sensitive-pattern warnings; run with `python3 scripts/validate_repository.py`.
 - [GitHub Actions Validation](.github/workflows/docs-validation.yml) — runs documentation checks on Markdown changes.
 
