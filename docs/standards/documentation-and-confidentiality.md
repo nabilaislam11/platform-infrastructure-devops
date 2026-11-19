@@ -1,6 +1,6 @@
 # Engineering Documentation and Publication Standard
 
-**Purpose:** Maintain technically useful, reviewable, and confidentiality-safe public documentation.
+**Purpose:** Maintain technically accurate, consistent, and reviewable engineering documentation.
 
 ## 1. Document classifications
 
@@ -23,27 +23,6 @@ Use clear labels:
 
 Never fabricate benchmark values, incident timelines, test results, change approvals, or successful deployments.
 
-## 3. Publication safety checklist
-
-Before committing a file, confirm:
-
-- [ ] No real employer IP addresses, internal DNS names, server labels, inventories or network segmentation
-- [ ] No credentials, secrets, tokens, private keys, certificates or authentication strings
-- [ ] No actual production configuration files, unredacted logs, screenshots or internal URLs
-- [ ] No proprietary incident records, diagrams, ticket references or customer data
-- [ ] No internal software artifacts or company-owned code
-- [ ] All examples are independently written with generic placeholders
-- [ ] Commands are safe for the stated environment and warn about destructive effects
-- [ ] Claims about tests, performance, incidents and deployments match evidence
-- [ ] External references are public and relevant
-- [ ] Links and Markdown formatting have been reviewed
-
-## 4. Safe examples
-
-Use placeholders such as `<LAB_HOST>`, `<SERVICE_NAME>`, and `<APPROVED_PORT>`. For network diagrams that genuinely require addresses, use documentation ranges reserved by RFC 5737, not remembered infrastructure values.
-
-Do not merely replace an employer hostname while preserving a real internal topology or deployment relationship. Rewrite the example as a generic architecture.
-
 ## 5. Review workflow
 
 1. Draft technical content.
@@ -53,6 +32,3 @@ Do not merely replace an employer hostname while preserving a real internal topo
 5. Record whether examples were executed or are illustrative.
 6. Publish only the sanitized, independently authored material.
 
-## 6. Professional attribution
-
-The author may state her verified role and employer. This repository is independently maintained and does not represent official employer documentation or endorsement.
