@@ -1,7 +1,7 @@
 # Runbook: Nessus Agent Appears Offline
 
 **Type:** Troubleshooting runbook  
-**Status:** Generalized diagnostic guide; no specific root cause asserted
+**Focus:** Agent connectivity, enrollment identity, and manager check-in troubleshooting
 
 ## Symptom
 A previously enrolled vulnerability-scanning agent is reported offline or stops checking in with its manager.
@@ -31,5 +31,5 @@ A previously enrolled vulnerability-scanning agent is reported offline or stops 
 ## Safety
 Never publish linking keys, tokens, real manager endpoints, host identities, or internal network details. Avoid deleting agent identity files as a first-line troubleshooting step.
 
-## Limitations
-Offline status has multiple possible causes. This runbook does not claim a confirmed root cause for a specific production incident.
+## Diagnostic decision
+Classify the issue from observed service, network, certificate, enrollment, and manager-side evidence before selecting a corrective action.
