@@ -1,7 +1,7 @@
 # Designing Reliable Linux Infrastructure Observability
 
 **Classification:** Public, independently authored engineering study  
-**Status:** Analytical reference; example experiments are proposed, not claimed as executed  
+**Approach:** Architecture analysis and reproducible validation design  
 **Context:** Generic Linux infrastructure; no employer-specific architecture or incident details
 
 ## Abstract
@@ -15,11 +15,11 @@ Infrastructure monitoring is not equivalent to service reliability. An exporter 
 3. What makes an alert actionable rather than merely noisy?
 4. How should recovery and alert delivery be verified without relying on untested assumptions?
 
-## 2. Reference design (hypothetical)
+## 2. Reference architecture
 
 A generic Linux host exposes system metrics through Node Exporter to an authorized Prometheus collector. Prometheus evaluates alert rules; Alertmanager handles grouping and routing; Grafana supports investigation. A separate synthetic HTTP probe can evaluate service reachability. SNMPv3 can be used for supported infrastructure devices.
 
-This is a conceptual design, **not** a description of any employer's topology. Exact ports, network zones, host counts, addresses, and routing are intentionally omitted.
+The reference architecture uses generic components and focuses on portable engineering patterns.
 
 ### Signal layers
 
@@ -81,7 +81,7 @@ Do not embed real production logs, network diagrams, device inventories, notific
 
 ## 6. Proposed reproducible lab evaluation
 
-The following is a **test plan**, not a record of completed tests.
+The following test matrix defines expected signals and evidence to capture in a controlled lab.
 
 | Test | Action in authorized lab | Expected observation | Evidence to collect |
 |---|---|---|---|
@@ -106,9 +106,9 @@ Do not populate these measurements until actual timestamps have been collected.
 
 An observability design should be evaluated as a chain: **signal generation → collection → rule evaluation → notification → human diagnosis → recovery verification**. Failure at any link can reduce operational visibility. Combining host metrics, application-level checks, and monitoring-pipeline health provides stronger evidence than any one tool alone.
 
-## 8. Limitations
+## 8. Implementation considerations
 
-This document contains generalized analysis and proposed tests. It does not assert measured performance, a deployed configuration, or any specific production incident. Product behavior can differ by version and environment.
+Tune scrape intervals, rule durations, collection capacity, and receiver routing to the chosen software versions and service objectives. Record measurements with the lab setup when applying the test matrix.
 
 ## 9. Further reading
 
