@@ -1,0 +1,40 @@
+name: Verified archive utility tests
+
+on:
+  push:
+    paths:
+      - 'scripts/archive_verified.py'
+      - '.github/workflows/archive-utility-tests.yml'
+  pull_request:
+    paths:
+      - 'scripts/archive_verified.py'
+      - '.github/workflows/archive-utility-tests.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  archive-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test archive verification with disposable data
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p sample-logs archives
+          printf 'first\n' > sample-logs/service-2025-01.log
+          printf 'second\n' > sample-logs/service-2025-02.log
+          python3 scripts/archive_verified.py --source sample-logs --destination archives --pattern '*-2025-*.log' --name logs-2025.tar.gz
+          test -f sample-logs/service-2025-01.log
+          test -f sample-logs/service-2025-02.log
+          python3 - <<'PY'
+          import tarfile
+          with tarfile.open('archives/logs-2025.tar.gz', 'r:gz') as archive:
+              assert sorted(archive.getnames()) == ['service-2025-01.log', 'service-2025-02.log']
+          PY
+          if python3 scripts/archive_verified.py --source sample-logs --destination archives --pattern '*-2025-*.log' --name logs-2025.tar.gz; then
+            echo "Expected no-overwrite refusal" >&2
+            exit 1
+          fi
