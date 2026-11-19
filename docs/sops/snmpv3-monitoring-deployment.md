@@ -1,7 +1,7 @@
 # SOP: Secure SNMPv3 Monitoring on Linux
 
 **Classification:** Public, independently authored reference  
-**Status:** Example procedure; not executed or validated for this publication  
+**Focus:** SNMPv3 authPriv deployment, access control, and verification  
 **Scope:** Authorized Linux lab with a compatible Net-SNMP installation
 
 ## 1. Purpose
@@ -122,9 +122,9 @@ Never disable authentication or encryption merely to make a production polling t
 
 Restore the previously approved configuration and service state, revert network-policy changes through the change process, and verify expected baseline behavior. Remove test identities only when their lifecycle and impact have been reviewed.
 
-## 9. Scope limitations and references
+## 9. References
 
-This is an educational SOP, not a verbatim internal procedure. No real monitoring identity, secret, management address, or employer topology is included.
+The procedure uses independently authored, generic lab configuration guidance.
 
 - [Net-SNMP documentation](https://www.net-snmp.org/docs/)
 - [Net-SNMP project](https://www.net-snmp.org/)
